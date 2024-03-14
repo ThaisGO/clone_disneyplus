@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('[data-tab-button]');
+    const question = document.querySelectorAll('[data-faq-question]');
+
+    const heroSection = document.querySelector('.hero');
+    const alturaHero = heroSection.clientHeight;
+
+    window.addEventListener('scroll', function() {
+        const posicaoAtual = window.scrollY;
+        
+        if ( posicaoAtual < alturaHero) {
+            ocultaElementoDoHeader();
+        } 
+        else {
+            exibeElementoDoHeader();
+        }
+    });
     
     for(let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function(botao){
@@ -12,7 +27,21 @@ document.addEventListener('DOMContentLoaded', function() {
             botao.target.classList.add('shows__tabs__button--is-active')
         })
     }
+
+    for(let i = 0; i < question.length; i++) {
+        question[i].addEventListener('click', abreOuFechaResposta)
+    }
 })
+
+function ocultaElementoDoHeader () {
+    const header = document.querySelector('header');
+    header.classList.add('header--is-hidden');
+}
+
+function exibeElementoDoHeader () {
+    const header = document.querySelector('header');
+    header.classList.remove('header--is-hidden');
+}
 
 function removeBotaoAtivo() {
     const buttons = document.querySelectorAll('[data-tab-button]');
@@ -29,4 +58,11 @@ function escondeTodasAbas() {
     for(let i = 0; i < tabsContainer.length; i++) {
         tabsContainer[i].classList.remove('shows__list--is-active');
     }
+}
+
+function abreOuFechaResposta(e) {
+    const classe = 'faq__questions__item--is-open';
+    const elementoPai = e.target.parentNode;
+
+    elementoPai.classList.toggle(classe);
 }
